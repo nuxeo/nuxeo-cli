@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+// Notify if update is required
+const updateNotifier = require('update-notifier');
+updateNotifier({
+  pkg: require('../package.json')
+}).notify();
+
 const optimist = require('yargs')
   .usage('Usage: $0 <command> [options] [args]')
   .command('bootstrap', 'Bootstrap Nuxeo project, bundles or several components in the current folder.', require('../commands/bootstrap'))
@@ -22,20 +28,7 @@ const optimist = require('yargs')
 const argv = optimist.argv;
 
 if (argv.version) {
-  const pad = (name) => {
-    return require('pad-right')(name, 22, ' ');
-  };
-  const versionOf = (name) => {
-    return require(require.resolve(`${name}/package.json`)).version;
-  };
-  const displayVersionOf = (name) => {
-    return `${pad(' - ' + name)}: ${versionOf(name)}`;
-  };
-
-  console.log(`${pad('Nuxeco CLI')}: ${require('../package.json').version}`);
-  console.log('Modules');
-  console.log(displayVersionOf('generator-nuxeo'));
-  console.log(displayVersionOf('yeoman-environment'));
+  require('../lib/display_version')(console.log);
   process.exit(0);
 }
 
