@@ -5,7 +5,7 @@ const sym = require('log-symbols');
 module.exports = ({
   argv: argv
 }) => {
-  const root = path.join(__dirname, '..', 'dsad');
+  const root = path.join(__dirname, '..');
   try {
     fs.accessSync(root, fs.constants.R_OK | fs.constants.W_OK);
   } catch (e) {
