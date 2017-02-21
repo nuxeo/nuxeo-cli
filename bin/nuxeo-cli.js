@@ -6,7 +6,7 @@ const optimist = require('yargs')
   .example('$0 bootstrap operation listener')
   .command('hotreload', 'Hotreload your latest modifications in a Nuxeo Server.', require('../commands/hotreload'))
   .example('$0 hotreload configure')
-  .command('update', 'Update command to be up to date with the latest features.', require('../commands/update'))
+  .command('update', 'Update to get the latest features.', require('../commands/update'))
   .options('h', {
     alias: 'help',
     describe: 'Print Nuxeo CLI version',

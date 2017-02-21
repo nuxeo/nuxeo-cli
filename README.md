@@ -9,6 +9,20 @@ Nuxeo CLI includes several commands for working with your Nuxeo Project
 - hotreload: Trigger hot reload on your development server
 - update: Keep Nuxeo CLI up to date
 
+# Installation
+
+Install via NPM:
+
+```
+npm install -g nuxeo-cli
+```
+
+Then `nuxeo` executable should be available; ensure you can run:
+
+```
+nuxeo
+```
+
 # Usage
 
 ```bash
