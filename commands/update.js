@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const isWindows = require('is-windows');
 const sym = require('log-symbols');
 
 module.exports = ({
@@ -15,7 +16,7 @@ module.exports = ({
   }
 
   const spawn = require('child_process').spawn;
-  const cmd = spawn('npm', ['update'], {
+  const cmd = spawn(isWindows() ? 'npm.cmd' : 'npm', ['update'], {
     cwd: root
   });
 
