@@ -4,8 +4,13 @@
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
   "scripts": {
-    "test": "mocha --timeout 5000 -u tdd ",
-    "coverage": "istanbul cover _mocha"
+    "test": "mocha --timeout 5000 -u tdd",
+    "coverage": "istanbul cover _mocha",
+    "preshrinkwrap": "rm -rf node_modules && npm install",
+    "postshrinkwrap": "npm test",
+    "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
+    "postversion": "npm publish",
+    "postpublish": "git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
     "nuxeo",
