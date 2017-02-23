@@ -15,8 +15,20 @@ module.exports = ({
     process.exit(3);
   }
 
+  const shrinkwrap = path.join(root, 'npm-shrinkwrap.json');
+  if (fs.existsSync(shrinkwrap)) {
+    try {
+      fs.accessSync(shrinkwrap, fs.constants.R_OK | fs.constants.W_OK);
+      fs.unlinkSync(shrinkwrap);
+    } catch (e) {
+      console.error(sym.error, `Unable to get write access for file '${shrinkwrap}'. You might need to use a 'sudo'.`);
+      console.error('Or, try to remove it manually.');
+      process.exit(4);
+    }
+  }
+
   const spawn = require('child_process').spawn;
-  const cmd = spawn(isWindows() ? 'npm.cmd' : 'npm', ['update'], {
+  const cmd = spawn(isWindows() ? 'npm.cmd' : 'npm', ['update', 'generator-nuxeo'], {
     cwd: root
   });
 
