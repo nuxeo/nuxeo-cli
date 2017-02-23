@@ -24,7 +24,7 @@ const optimist = require('yargs')
   .example('$0 hotreload configure')
   .command('sample', 'Generate a Sample project to discover how things work.', require('../commands/sample').run)
   .example('$0 sample')
-  .command('update', 'Update Nuxeo CLI to get latest features.', require('../commands/update'))
+  .command('update', 'Update Nuxeo CLI to get latest features.', require('../commands/update').run)
   .options('h', {
     alias: 'help',
     describe: 'Print Nuxeo CLI version',
