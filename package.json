@@ -9,8 +9,7 @@
     "preshrinkwrap": "rm -rf node_modules && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
-    "postversion": "npm publish",
-    "postpublish": "git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
+    "postversion": "git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
     "nuxeo",
