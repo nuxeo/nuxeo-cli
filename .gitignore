@@ -3,3 +3,5 @@ coverage
 tmp*
 npm-shrinkwrap.json
 npm-debug.log
+test-results.xml
+.nyc_output/*
