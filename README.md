@@ -1,3 +1,9 @@
+[![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=master/tools_nuxeo-cli-master/)](https://qa.nuxeo.org/jenkins/job/master/job/tools_nuxeo-cli-master//)
+[![npm version](https://img.shields.io/npm/v/nuxeo-cli.svg?style=flat-square)](https://www.npmjs.com/package/nuxeo-cli)
+[![npm downloads](https://img.shields.io/npm/dm/nuxeo-cli.svg?style=flat-square)](https://www.npmjs.com/package/nuxeo-cli)
+[![Dependency Status](https://img.shields.io/david/nuxeo/nuxeo-cli.svg?style=flat-square)](https://david-dm.org/nuxeo/nuxeo-cli) [![devDependency Status](https://img.shields.io/david/dev/nuxeo/nuxeo-cli.svg?style=flat-square)](https://david-dm.org/nuxeo/nuxeo-cli#info=devDependencies)
+
+# About
 
 Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...
 
