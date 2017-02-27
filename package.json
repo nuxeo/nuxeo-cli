@@ -5,8 +5,9 @@
   "main": "./bin/nuxeo-cli.js",
   "scripts": {
     "test": "mocha --timeout 5000 -u tdd",
-    "coverage": "nyc npm test -- --reporter mocha-junit-reporter",
-    "report": "nyc report",
+    "clean": "rimraf coverage/ test-results.xml .nyc*",
+    "precoverage": "nyc npm test -- --reporter mocha-junit-reporter",
+    "coverage": "nyc report --reporter=cobertura",
     "preshrinkwrap": "rm -rf node_modules && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
@@ -42,6 +43,7 @@
     "mocha": "^3.2.0",
     "mocha-junit-reporter": "^1.13.0",
     "nyc": "^10.1.2",
+    "rimraf": "^2.6.1",
     "tmp": "0.0.31"
   }
 }
