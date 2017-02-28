@@ -40,6 +40,7 @@ nuxeo <command> [options] [args]
 ```text
   -h, --help     Print Nuxeo CLI version                               [boolean]
   -v, --version  Show version                                          [boolean]
+  -q             Quiet - Hide welcome message                          [boolean]
 ```
 
 ## Commands
