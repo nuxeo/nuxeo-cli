@@ -23,6 +23,7 @@
     "node": ">=6.4"
   },
   "dependencies": {
+    "ansi-256-colors": "^1.1.0",
     "chalk": "^1.1.3",
     "generator-nuxeo": "*",
     "is-windows": "^1.0.0",
