@@ -5,13 +5,15 @@
   "main": "./bin/nuxeo-cli.js",
   "scripts": {
     "test": "mocha --timeout 5000 -u tdd",
+    "pretest": "npm run flow -- check",
     "clean": "rimraf coverage/ test-results.xml .nyc*",
     "precoverage": "nyc npm test -- --reporter mocha-junit-reporter",
     "coverage": "nyc report --reporter=cobertura",
     "preshrinkwrap": "rm -rf node_modules && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
-    "postversion": "git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
+    "postversion": "git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags",
+    "flow": "flow"
   },
   "keywords": [
     "nuxeo",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.15.0",
+    "flow-bin": "^0.43.0",
     "mocha": "^3.2.0",
     "mocha-junit-reporter": "^1.13.0",
     "nyc": "^10.1.2",
