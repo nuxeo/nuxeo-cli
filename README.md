@@ -40,19 +40,42 @@ nuxeo <command> [options] [args]
 ```text
   -h, --help     Print Nuxeo CLI version                               [boolean]
   -v, --version  Show version                                          [boolean]
-  -q             Quiet - Hide welcome message                          [boolean]
+  -n             Quiet - Hide welcome message                          [boolean]
 ```
 
 ## Commands
 
+### Update
+
+```bash
+nuxeo update
+```
+
+Update internal `generator-nuxeo` module to gets latest changes without updating `nuxeo-cli`.
+
 ### Bootstrap
+
+```bash
+nuxeo bootstrap [<generator>..] [options]
+```
 
 See: [Generator Nuxeo Bootstrap](https://github.com/nuxeo/generator-nuxeo/#available-generators)
 
 ### hotreload
 
+```bash
+nuxeo hotreload [hotreload|configure] [options]
+```
+
 See: [Generator Nuxeo Hotreload](https://github.com/nuxeo/generator-nuxeo/#hot-reload)
 
+### studio
+
+```bash
+nuxeo studio [link|unlink] [options]
+```
+
+Link or Unlink your project to your Studio project to package it easily and be able to test ev erything together.
 
 # Licensing
 
