@@ -3,6 +3,10 @@
   "version": "1.5.1",
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuxeo/nuxeo-cli"
+  },
   "scripts": {
     "test": "mocha --timeout 5000 -u tdd",
     "pretest": "npm run flow -- check",
@@ -22,7 +26,7 @@
   "author": "Arnaud Kervern",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=6.4"
+    "node": ">=6.4 <8"
   },
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
