@@ -77,6 +77,19 @@ nuxeo studio [link|unlink] [options]
 
 Link or Unlink your project to your Studio project to package it easily and be able to test ev erything together.
 
+## Testing/Developer Environment
+
+Lots of Nuxeo CLI logic is held in [generator-nuxeo](https://github.com/nuxeo/generator-nuxeo/) project. You must link both projects to be able to have live modifications.
+
+Run those commands in an empty folder:
+
+```bash
+git clone https://github.com/nuxeo/generator-nuxeo/ && cd generator-nuxeo && npm install && cd ..
+git clone https://github.com/nuxeo/nuxeo-cli/ && cd nuxeo-cli && npm install && npm run dev && npm link
+```
+
+Note that all commands have been concatenated with `&&`; but feel free to execute them one by one.
+
 # Licensing
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
