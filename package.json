@@ -8,16 +8,15 @@
     "url": "https://github.com/nuxeo/nuxeo-cli"
   },
   "scripts": {
+    "dev": "rm -rf $PWD/node_modules/generator-nuxeo && ln -s $PWD/../generator-nuxeo $PWD/node_modules/generator-nuxeo",
     "test": "mocha --timeout 5000 -u tdd",
-    "pretest": "npm run flow -- check",
     "clean": "rimraf coverage/ test-results.xml .nyc*",
     "precoverage": "nyc npm test -- --reporter mocha-junit-reporter",
     "coverage": "nyc report --reporter=cobertura",
     "preshrinkwrap": "rm -rf node_modules && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
-    "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags",
-    "flow": "flow"
+    "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
     "nuxeo",
@@ -34,9 +33,9 @@
     "generator-nuxeo": "latest",
     "is-windows": "^1.0.1",
     "lodash": "^4.17.4",
-    "log-symbols": "^1.0.2",
+    "log-symbols": "^2.0.0",
     "pad-right": "^0.2.2",
-    "semver": "^5.3.0",
+    "semver": "^5.4.1",
     "update-notifier": "^2.2.0",
     "yargs": "^8.0.2",
     "yeoman-environment": "^2.0.0"
@@ -46,8 +45,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.2.0",
-    "flow-bin": "^0.50.0",
+    "eslint": "^4.3.0",
     "mocha": "^3.4.2",
     "mocha-junit-reporter": "^1.13.0",
     "nyc": "^11.0.3",
