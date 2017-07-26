@@ -45,7 +45,7 @@ class UpdateCmd {
   }
 
   run({
-    argv: argv
+    argv
   }, targetPath) {
     const root = targetPath || path.join(__dirname, '..');
     if (!UpdateCmd.hasWriteAccess(root)) {
