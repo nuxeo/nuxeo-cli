@@ -9,11 +9,12 @@
   },
   "scripts": {
     "dev": "rm -rf $PWD/node_modules/generator-nuxeo && ln -s $PWD/../generator-nuxeo $PWD/node_modules/generator-nuxeo",
+    "pretest": "npm run clean",
     "test": "mocha --timeout 5000 -u tdd",
     "clean": "rimraf coverage/ test-results.xml .nyc*",
     "precoverage": "nyc npm test -- --reporter mocha-junit-reporter",
     "coverage": "nyc report --reporter=cobertura",
-    "preshrinkwrap": "rm -rf node_modules && npm install",
+    "preshrinkwrap": "rm -rf node_modules && npm install --save generator-nuxeo@* && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
     "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
@@ -30,7 +31,7 @@
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
     "chalk": "^2.0.1",
-    "generator-nuxeo": "latest",
+    "generator-nuxeo": "nuxeo/generator-nuxeo#master",
     "is-windows": "^1.0.1",
     "lodash": "^4.17.4",
     "log-symbols": "^2.0.0",
