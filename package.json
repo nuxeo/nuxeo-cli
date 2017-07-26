@@ -9,7 +9,6 @@
   },
   "scripts": {
     "dev": "rm -rf $PWD/node_modules/generator-nuxeo && ln -s $PWD/../generator-nuxeo $PWD/node_modules/generator-nuxeo",
-    "pretest": "npm run clean",
     "test": "mocha --timeout 5000 -u tdd",
     "clean": "rimraf coverage/ test-results.xml .nyc*",
     "precoverage": "nyc npm test -- --reporter mocha-junit-reporter",
