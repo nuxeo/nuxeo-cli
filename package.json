@@ -16,7 +16,7 @@
     "preshrinkwrap": "rm -rf node_modules && npm install --save generator-nuxeo@* && npm install",
     "postshrinkwrap": "npm test",
     "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
-    "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
+    "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && npm install --save nuxeo/generator-nuxeo#master && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
     "nuxeo",
@@ -30,7 +30,7 @@
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
     "chalk": "^2.0.1",
-    "generator-nuxeo": "^2.6.0",
+    "generator-nuxeo": "github:nuxeo/generator-nuxeo#master",
     "is-windows": "^1.0.1",
     "lodash": "^4.17.4",
     "log-symbols": "^2.0.0",
