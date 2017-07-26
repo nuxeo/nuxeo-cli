@@ -1,6 +1,6 @@
 {
   "name": "nuxeo-cli",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
   "repository": {
