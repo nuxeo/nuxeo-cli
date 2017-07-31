@@ -140,23 +140,25 @@ module.exports = {
     return w.run.apply(w);
   },
   builder: (yargs) => {
-    return yargs.options({
-      src: {
-        describe: 'Source folder',
-        default: '/tmp/watcher/src'
-      },
-      dest: {
-        describe: 'Destination folder',
-        default: '/tmp/watcher/dest'
-      },
-      pattern: {
-        describe: 'Glob matching pattern for synchronizable files',
-        default: '*.+(js|html|jpg|gif|svg|png|json|jsp)'
-      }
-    }).coerce(['src', 'dest'], (opt) => {
-      fs.ensureDirSync(opt);
-      return opt;
-    });
+    return yargs
+      .help()
+      .options({
+        src: {
+          describe: 'Source folder',
+          default: '/tmp/watcher/src'
+        },
+        dest: {
+          describe: 'Destination folder',
+          default: '/tmp/watcher/dest'
+        },
+        pattern: {
+          describe: 'Glob matching pattern for synchronizable files',
+          default: '*.+(js|html|jpg|gif|svg|png|json|jsp)'
+        }
+      }).coerce(['src', 'dest'], (opt) => {
+        fs.ensureDirSync(opt);
+        return opt;
+      });
   },
   Watcher: Watcher,
   Triggers: {
