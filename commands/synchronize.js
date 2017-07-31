@@ -69,7 +69,7 @@ class UnlinkTrigger extends ActionTrigger {
 
 class Watcher {
 
-  constructor(dest = '/tmp/watcher/dest', src = '/tmp/watcher/src', pattern = '*.+(js|html|jpg|gif|svg|png|json)') {
+  constructor(dest = '/tmp/watcher/dest', src = '/tmp/watcher/src', pattern = '*.+(js|html|jpg|gif|svg|png|json|jsp)') {
     this.dest = path.normalize(dest);
     this.src = path.normalize(src);
     this.pattern = pattern;
@@ -127,7 +127,9 @@ class Watcher {
 }
 
 module.exports = {
-  run: function () {
+  command: 'sync',
+  describe: 'Web Resources Folder Synchronization',
+  handler: function () {
     const [{
       argv
     }] = arguments;

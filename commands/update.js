@@ -44,9 +44,13 @@ class UpdateCmd {
     return true;
   }
 
-  run({
-    argv
-  }, targetPath) {
+  get command() {
+    return 'update';
+  }
+  get describe() {
+    return 'Update Nuxeo CLI to get latest features.';
+  }
+  handler(argv, targetPath) {
     const root = targetPath || path.join(__dirname, '..');
     if (!UpdateCmd.hasWriteAccess(root)) {
       console.error(sym.error, `Unable to get write access for folder '${root}'. You might need to use a 'sudo'.`);
