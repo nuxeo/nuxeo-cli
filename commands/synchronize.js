@@ -69,7 +69,7 @@ class UnlinkTrigger extends ActionTrigger {
 
 class Watcher {
 
-  constructor(dest = '/tmp/watcher/dest', src = '/tmp/watcher/src', pattern = '*.+(js|html|jpg|gif|svg|png|json|jsp)') {
+  constructor(dest, src, pattern) {
     this.dest = path.normalize(dest);
     this.src = path.normalize(src);
     this.pattern = pattern;
@@ -110,34 +110,53 @@ class Watcher {
   }
 
   run() {
-    const that = this; //WTF?!
+    setTimeout(() => {
+      // Delayed to 5ms, to free the thread to print the logo before any other log
+      console.log(`Waiting changes on "${chalk.blue(this.src)}", to "${chalk.blue(this.dest)}"`);
+    }, 5);
 
     chokidar.watch(this.src, {
       interval: 200,
       awaitWriteFinish: true
-    }).on('all', function (event, filePath) { //fucntion needed to access arguments.
+    }).on('all', function (event, filePath) { //function needed to access arguments.
       debug('%O', arguments);
-      if (!that.handledFile(event, filePath)) {
+      if (!this.handledFile(event, filePath)) {
         debug(`Unhandled event "${event}" or file "${filePath}"`);
         return;
       }
-      that.triggerAction(event, filePath);
-    });
+      this.triggerAction(event, filePath);
+    }.bind(this));
   }
 }
 
 module.exports = {
   command: 'sync',
-  describe: 'Web Resources Folder Synchronization',
-  handler: function () {
-    const [{
-      argv
-    }] = arguments;
+  desc: 'Web Resources Folder Synchronization',
+  handler: function (argv) {
     debug('Argv: %O', argv);
 
     const w = new Watcher(argv.dest, argv.src, argv.pattern);
     debug('%O', w);
     return w.run.apply(w);
+  },
+  builder: (yargs) => {
+    return yargs.options({
+      src: {
+        describe: 'Source folder',
+        default: '/tmp/watcher/src'
+      },
+      dest: {
+        describe: 'Destination folder',
+        default: '/tmp/watcher/dest'
+      },
+      pattern: {
+        describe: 'Glob matching pattern for synchronizable files',
+        default: '*.+(js|html|jpg|gif|svg|png|json|jsp)'
+      }
+    }).coerce(['src', 'dest'], (opt) => {
+      fs.ensureDirSync(opt);
+      return opt;
+    });
   },
   Watcher: Watcher,
   Triggers: {
