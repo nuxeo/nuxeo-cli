@@ -69,10 +69,14 @@ class UnlinkTrigger extends ActionTrigger {
 
 class Watcher {
 
-  constructor(dest, src, pattern) {
+  constructor(dest = '', src = '', pattern = Watcher.GLOB) {
     this.dest = path.normalize(dest);
     this.src = path.normalize(src);
     this.pattern = pattern;
+  }
+
+  static get GLOB() {
+    return '*.+(js|html|jpg|gif|svg|png|json|jsp)';
   }
 
   handledFile(event, filePath) {
@@ -153,7 +157,7 @@ module.exports = {
         },
         pattern: {
           describe: 'Glob matching pattern for synchronizable files',
-          default: '*.+(js|html|jpg|gif|svg|png|json|jsp)'
+          default: Watcher.GLOB
         }
       }).coerce(['src', 'dest'], (opt) => {
         fs.ensureDirSync(opt);
