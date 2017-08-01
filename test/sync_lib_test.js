@@ -5,6 +5,14 @@ const path = require('path');
 const fs = require('fs-extra');
 
 describe('Synchronization Lib Modules', function () {
+  before(function () {
+    this.realCwd = process.cwd();
+  });
+
+  after(function () {
+    process.chdir(this.realCwd);
+  });
+
   describe('PathResolved class', function () {
     describe('src getter', function () {
       it('returns a default value', function () {
