@@ -1,4 +1,4 @@
-const parentPath = require('parentPath').sync;
+const parentPath = require('parentpath').sync;
 const path = require('path');
 const debug = require('debug')('nuxeo:cli:sync:lib');
 
