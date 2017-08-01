@@ -45,6 +45,48 @@ nuxeo <command> [options] [args]
 
 ## Commands
 
+### Sync
+
+#### Usage
+
+```bash
+nuxeo sync --src "<src_folder>" [--dest "<dest_folder"]
+```
+
+One-way Synchronization files (`src` folder to `dest` folder), then watch any changes occured in a child from the `source` folder to repercute it to the `dest` folder.
+
+If you start this command inside a `nuxeo-cli` bootstrap project that has been registered for hotreload (`nuxeo hotreload configure`), the destination path is computed to the registered distribution.
+
+```text
+  --dest         Destination Folder                           [string] [default:
+            "/Users/foo/nuxeo-server-tomcat-9.3-SNAPSHOT/nxserver/nuxeo.war/ui"]
+```
+
+You can also watch several source folders:
+
+```bash
+nuxeo sync --src "<src1_folder>" --src "<src2_folder>" --src "<src3_folder>" --dest "<dest_folder"
+```
+
+You can also fine tune which files are tracked, but overriding the `pattern` option:
+
+```bash
+nuxeo sync --pattern "*.js"
+```
+
+#### Options
+
+```text
+Options:
+  -h, --help     Show help                                             [boolean]
+  -v, --version  Show version                                          [boolean]
+  -n             Quiet - Hide welcome message                          [boolean]
+  --src          Source Folder                     [default: "/tmp/watcher/src"]
+  --dest         Destination Folder      [string] [default: "/tmp/watcher/dest"]
+  --pattern      Glob matching pattern for synchronizable files
+                              [default: "*.+(js|html|jpg|gif|svg|png|json|jsp)"]
+```
+
 ### Update
 
 ```bash

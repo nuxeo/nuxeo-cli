@@ -19,6 +19,7 @@ class PathResolver {
   get dest() {
     return {
       describe: 'Destination Folder',
+      type: 'string',
       default: (() => {
         return this.computeDestination();
       })()
