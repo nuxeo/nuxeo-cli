@@ -5,6 +5,7 @@ const path = require('path');
 const chalk = require('chalk');
 const padr = require('pad-right');
 const minimatch = require('minimatch');
+const pathResolver = require('./synchronize_lib/path_resolver');
 
 class ActionTrigger {
   trigger() {
@@ -147,14 +148,8 @@ module.exports = {
     return yargs
       .help()
       .options({
-        src: {
-          describe: 'Source folder',
-          default: '/tmp/watcher/src'
-        },
-        dest: {
-          describe: 'Destination folder',
-          default: '/tmp/watcher/dest'
-        },
+        src: pathResolver.src,
+        dest: pathResolver.dest,
         pattern: {
           describe: 'Glob matching pattern for synchronizable files',
           default: Watcher.GLOB

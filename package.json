@@ -38,6 +38,7 @@
     "lodash": "^4.17.4",
     "log-symbols": "^2.0.0",
     "pad-right": "^0.2.2",
+    "parentpath": "^0.2.0",
     "semver": "^5.4.1",
     "update-notifier": "^2.2.0",
     "yargs": "^8.0.2",
