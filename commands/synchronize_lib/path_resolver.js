@@ -1,6 +1,6 @@
 const parentPath = require('parentpath').sync;
 const path = require('path');
-const debug = require('debug')('nuxeo:cli:sync:lib');
+const debug = require('debug')('nuxeo:cli:sync:lib:resolve');
 
 class PathResolver {
   constructor() {

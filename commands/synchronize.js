@@ -1,11 +1,13 @@
 const chokidar = require('chokidar');
-const debug = require('debug')('nuxeo:cli:watch');
+const debug = require('debug')('nuxeo:cli:sync');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
 const padr = require('pad-right');
 const minimatch = require('minimatch');
 const pathResolver = require('./synchronize_lib/path_resolver');
+const containsChild = require('./synchronize_lib/path_child_finder').containsChild;
+const isArray = require('isarray');
 
 class ActionTrigger {
   trigger() {
@@ -80,6 +82,21 @@ class Watcher {
     return '*.+(js|html|jpg|gif|svg|png|json|jsp)';
   }
 
+  static coerce(opt) {
+    let _opt = !isArray(opt) ? [opt] : opt;
+
+    if (containsChild(_opt)) {
+      throw new Error('The directories contain a child of one of the parent directories.');
+    }
+
+    _opt = _opt.map((o) => {
+      fs.ensureDirSync(o);
+      return path.resolve(o);
+    });
+
+    return _opt.length === 1 ? _opt[0] : _opt;
+  }
+
   handledFile(event, filePath) {
     return !!event && (event.match(/Dir$/) || minimatch(path.basename(filePath), this.pattern, {
       nocase: true
@@ -148,16 +165,13 @@ module.exports = {
     return yargs
       .help()
       .options({
-        src: pathResolver.src,
-        dest: pathResolver.dest,
+        src: pathResolver.src(),
+        dest: pathResolver.dest(),
         pattern: {
           describe: 'Glob matching pattern for synchronizable files',
           default: Watcher.GLOB
         }
-      }).coerce(['src', 'dest'], (opt) => {
-        fs.ensureDirSync(opt);
-        return opt;
-      });
+      }).coerce(['src', 'dest'], Watcher.coerce);
   },
   Watcher: Watcher,
   Triggers: {

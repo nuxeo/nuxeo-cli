@@ -3,6 +3,9 @@ const Sync = require('../commands/synchronize');
 const tmp = require('tmp');
 const path = require('path');
 const fs = require('fs-extra');
+const _ = require('lodash');
+const debug = require('debug')('nuxeo:test');
+const isArray = require('isarray');
 
 describe('Synchronization Command', function () {
   beforeEach(function () {
@@ -13,6 +16,46 @@ describe('Synchronization Command', function () {
   afterEach(function () {
     fs.emptyDirSync(this.cwd);
     this.cwdObj.removeCallback();
+  });
+
+  describe('coerce arguments', function () {
+    beforeEach(function () {
+      this.coerce = (opt) => {
+        if (isArray(opt)) {
+          opt = _.map(opt, (o) => {
+            return path.join(this.cwd, o);
+          });
+        } else {
+          opt = path.join(this.cwd, opt);
+        }
+
+        debug('Opt: %O', opt);
+        const res = Sync.Watcher.coerce(opt);
+        debug('Res: %O', res);
+        if (isArray(res)) {
+          return _.map(res, (o) => {
+            return path.relative(this.cwd, o);
+          });
+        }
+        return path.relative(this.cwd, res);
+      };
+    });
+
+    it('throw error on wrong parameters', function () {
+      expect(() => {
+        this.coerce(['/a/b', '/b', '/a']);
+      }).to.throw();
+    });
+
+    it('resolves path', function () {
+      expect(this.coerce([path.join('toto', '..', 'asd')])).to.be.eq('asd');
+    });
+
+    it('can handle string and array', function () {
+      expect(this.coerce('a')).to.be.eq('a');
+      expect(this.coerce(['a'])).to.be.eq('a');
+      expect(this.coerce(['a', 'b'])).to.have.lengthOf(2);
+    });
   });
 
   describe('contains valid triggers.', function () {

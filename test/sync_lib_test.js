@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const pathResolver = require('../commands/synchronize_lib/path_resolver');
+const containsChild = require('../commands/synchronize_lib/path_child_finder').containsChild;
 const tmp = require('tmp');
 const path = require('path');
 const fs = require('fs-extra');
@@ -78,5 +79,19 @@ describe('Synchronization Lib Modules', function () {
       });
     });
 
+  });
+
+  describe('Child Path Finder class', function () {
+    it('should detect child paths', function () {
+      expect(containsChild(['/a/b'])).to.be.false;
+      expect(containsChild(['/a/b', '/c', '/b'])).to.be.false;
+      expect(containsChild(['/a/boby', '/a/bob', '/b'])).to.be.false;
+
+      expect(containsChild(['/a/b', '/a'])).to.be.true;
+      expect(containsChild(['/a/boby', '/a/../a/boby'])).to.be.true;
+      expect(containsChild([process.cwd(), '.'])).to.be.true;
+
+      expect(containsChild(['/var/folders/0r/z5sgbmt124zcfq_0g2g4sg9w0000gn/T/tmp-30031F3wqiBN4Zx3Q/a/b', '/var/folders/0r/z5sgbmt124zcfq_0g2g4sg9w0000gn/T/tmp-30031F3wqiBN4Zx3Q/b', '/var/folders/0r/z5sgbmt124zcfq_0g2g4sg9w0000gn/T/tmp-30031F3wqiBN4Zx3Q/a'])).to.be.true;
+    });
   });
 });
