@@ -223,4 +223,31 @@ describe('Synchronization Command', function () {
       });
     });
   });
+
+  describe('compute destination path', function () {
+    it('can compute from single src', function () {
+      const w = new Sync.Watcher('/tmp/dest', '/tmp/src');
+      expect(w.computeDestination('/tmp/src/toto/tata/a')).to.be.eq('/tmp/dest/toto/tata/a');
+    });
+
+    it('can compute from multiple src', function () {
+      const w = new Sync.Watcher('/tmp/dest', ['/tmp/src1', '/tmp/src2', '/tmp/src3']);
+
+      expect(w.computeDestination('/tmp/src1/toto/tata/a')).to.be.eq('/tmp/dest/toto/tata/a');
+      expect(w.computeDestination('/tmp/src2/foo/a')).to.be.eq('/tmp/dest/foo/a');
+      expect(w.computeDestination('/tmp/src3/toto/a')).to.be.eq('/tmp/dest/toto/a');
+    });
+
+    it('can compute on tricky paths', function() {
+      /**
+       * This one is tricky, to be sure that /src/ will not collide with /src./
+       */
+      const w = new Sync.Watcher('/tmp/dest', ['/tmp/src', '/tmp/src2', '/tmp/src3']);
+
+      expect(w.computeDestination('/tmp/src')).to.be.eq('/tmp/dest');
+      expect(w.computeDestination('/tmp/src/toto/tata/a')).to.be.eq('/tmp/dest/toto/tata/a');
+      expect(w.computeDestination('/tmp/src2/foo/a')).to.be.eq('/tmp/dest/foo/a');
+      expect(w.computeDestination('/tmp/src3/toto/a')).to.be.eq('/tmp/dest/toto/a');
+    });
+  });
 });

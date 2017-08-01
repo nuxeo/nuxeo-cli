@@ -8,6 +8,7 @@ const minimatch = require('minimatch');
 const pathResolver = require('./synchronize_lib/path_resolver');
 const containsChild = require('./synchronize_lib/path_child_finder').containsChild;
 const isArray = require('isarray');
+const _ = require('lodash');
 
 class ActionTrigger {
   trigger() {
@@ -73,9 +74,19 @@ class UnlinkTrigger extends ActionTrigger {
 class Watcher {
 
   constructor(dest = '', src = '', pattern = Watcher.GLOB) {
-    this.dest = path.normalize(dest);
-    this.src = path.normalize(src);
+    this.dest = Watcher.normalizePath(dest);
+    this.src = Watcher.normalizePath(src);
     this.pattern = pattern;
+  }
+
+  static normalizePath(opt) {
+    if (isArray(opt)) {
+      return _.map(opt, (o) => {
+        return path.normalize(o);
+      });
+    } else {
+      return path.normalize(opt);
+    }
   }
 
   static get GLOB() {
@@ -128,7 +139,11 @@ class Watcher {
   }
 
   computeDestination(source) {
-    return path.join(this.dest, source.replace(this.src, ''));
+    const src = isArray(this.src) ? _.find(this.src, (f) => {
+      return path.join(source, path.sep).startsWith(path.join(f, path.sep));
+    }) : this.src;
+
+    return path.join(this.dest, source.replace(src, ''));
   }
 
   run() {

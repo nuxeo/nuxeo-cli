@@ -87,7 +87,7 @@ describe('Synchronization Lib Modules', function () {
       expect(containsChild(['/a/b', '/c', '/b'])).to.be.false;
       expect(containsChild(['/a/boby', '/a/bob', '/b'])).to.be.false;
 
-      expect(containsChild(['/a/b', '/a'])).to.be.true;
+      expect(containsChild(['/a/b', '/a', '/b', '/c'])).to.be.true;
       expect(containsChild(['/a/boby', '/a/../a/boby'])).to.be.true;
       expect(containsChild([process.cwd(), '.'])).to.be.true;
 
