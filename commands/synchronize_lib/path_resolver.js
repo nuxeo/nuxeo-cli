@@ -1,6 +1,7 @@
 const parentPath = require('parentpath').sync;
 const path = require('path');
 const debug = require('debug')('nuxeo:cli:sync:lib:resolve');
+const fs = require('fs-extra');
 
 class PathResolver {
   constructor() {
@@ -34,11 +35,24 @@ class PathResolver {
       const distrib = require(path.join(yoConf, '.yo-rc.json'))['generator-nuxeo']['distribution:path'];
       debug(`distrib file path: ${distrib}`);
       if (distrib) {
-        targetPath = path.join(distrib, 'nxserver', 'nuxeo.war', 'ui');
+        targetPath = path.join(distrib, 'nxserver', 'nuxeo.war');
       }
     }
 
     return targetPath;
+  }
+
+  findBaseDistributionPath(target, child = path.join('bin', 'nuxeo.conf')) {
+    let cp = path.join(target, 'dummy');
+    while (cp !== (cp = path.dirname(cp))) {
+      const confFile = path.join(cp, child);
+      debug('Looking for %O', confFile);
+      if (fs.existsSync(confFile)) {
+        return cp;
+      }
+    }
+
+    return undefined;
   }
 }
 

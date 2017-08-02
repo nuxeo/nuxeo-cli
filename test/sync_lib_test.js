@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const pathResolver = require('../commands/synchronize_lib/path_resolver');
+const PathResolver = require('../commands/synchronize_lib/path_resolver');
 const containsChild = require('../commands/synchronize_lib/path_child_finder').containsChild;
 const tmp = require('tmp');
 const path = require('path');
@@ -10,30 +10,37 @@ describe('Synchronization Lib Modules', function () {
     this.realCwd = process.cwd();
   });
 
-  after(function () {
+  afterEach(function () {
     process.chdir(this.realCwd);
   });
 
   describe('PathResolved class', function () {
+    beforeEach(function () {
+      this.cwdObj = tmp.dirSync();
+      this.cwd = this.cwdObj.name;
+      process.chdir(this.cwd);
+    });
+
+    afterEach(function () {
+      fs.emptyDirSync(this.cwd);
+      this.cwdObj.removeCallback();
+    });
+
     describe('src getter', function () {
       it('returns a default value', function () {
-        expect(pathResolver.src().describe).to.be.eq('Source Folder');
-        expect(pathResolver.src().default).to.be.eq('/tmp/watcher/src');
+        expect(PathResolver.src().describe).to.be.eq('Source Folder');
+        expect(PathResolver.src().default).to.be.eq('/tmp/watcher/src');
       });
     });
 
     describe('dest getter', function () {
       it('returns a default value', function () {
-        expect(pathResolver.dest().describe).to.be.eq('Destination Folder');
-        expect(pathResolver.dest().default).to.be.eq('/tmp/watcher/dest');
+        expect(PathResolver.dest().describe).to.be.eq('Destination Folder');
+        expect(PathResolver.dest().default).to.be.eq('/tmp/watcher/dest');
       });
 
       describe('can find ".yo-rc.json"', function () {
         beforeEach(function () {
-          this.cwdObj = tmp.dirSync();
-          this.cwd = this.cwdObj.name;
-          process.chdir(this.cwd);
-
           this.initYoRc = (obj) => {
             fs.writeJSONSync(path.join(this.cwd, '.yo-rc.json'), {
               foo: {
@@ -44,17 +51,12 @@ describe('Synchronization Lib Modules', function () {
           };
         });
 
-        afterEach(function () {
-          fs.emptyDirSync(this.cwd);
-          this.cwdObj.removeCallback();
-        });
-
         it('and read configured distribution path', function () {
-          expect(pathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
+          expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
           this.initYoRc({
             'distribution:path': '/foo/bar/nxserver'
           });
-          expect(pathResolver.computeDestination()).to.match(/^\/foo\/bar\/nxserver\/.+/);
+          expect(PathResolver.computeDestination()).to.match(/^\/foo\/bar\/nxserver\/.+/);
         });
 
         it('even from a deeper child', function () {
@@ -62,23 +64,44 @@ describe('Synchronization Lib Modules', function () {
           fs.mkdirpSync(darkness);
           process.chdir(darkness);
 
-          expect(pathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
+          expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
           this.initYoRc({
             'distribution:path': '/foo/bar/nxserver'
           });
-          expect(pathResolver.computeDestination()).to.match(/^\/foo\/bar\/nxserver\/.+/);
+          expect(PathResolver.computeDestination()).to.match(/^\/foo\/bar\/nxserver\/.+/);
         });
 
         it('and return default value if distribution not configured', function () {
-          expect(pathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
+          expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
           this.initYoRc({
             'wrong:key': '/foo/bar/nxserver'
           });
-          expect(pathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
+          expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
         });
       });
     });
 
+    describe('findBaseDistribution', function () {
+      it('returns undefined when nothing is found', function () {
+        const target = path.join(this.cwd, 'foo', 'bar');
+        fs.mkdirpSync(target);
+
+        expect(new PathResolver().findBaseDistributionPath(target)).to.undefined;
+      });
+
+      it('find the distribution root', function () {
+        // Target Folder
+        const target = path.join(this.cwd, 'foo', 'bar', 'dymme', 'nuxeo.war', 'ui');
+        fs.mkdirpSync(target);
+
+        // Create nuxeo.conf file somewhere beside the target folder
+        const binTarget = path.join(this.cwd, 'foo', 'bar', 'bin');
+        fs.mkdirpSync(binTarget);
+        fs.writeJsonSync(path.join(binTarget, 'nuxeo.conf'), {});
+
+        expect(new PathResolver().findBaseDistributionPath(target)).to.eq(path.resolve(binTarget, '..'));
+      });
+    });
   });
 
   describe('Child Path Finder class', function () {
