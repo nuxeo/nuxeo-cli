@@ -72,3 +72,8 @@ module.exports.computeDestination = () => {
   const pr = new PathResolver();
   return pr.computeDestination();
 };
+
+module.exports.findBaseDistributionPath = (target, child) => {
+  const pr = new PathResolver();
+  return pr.findBaseDistributionPath(target, child);
+};

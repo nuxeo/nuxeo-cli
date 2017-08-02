@@ -10,73 +10,13 @@ const containsChild = require('./synchronize_lib/path_child_finder').containsChi
 const isArray = require('isarray');
 const _ = require('lodash');
 
-class ActionTrigger {
-  trigger() {
-    debug('Not overrided method!');
-  }
-
-  debug() {
-    debug('New action registered: %O', this);
-  }
-
-  format(val, color) {
-    return chalk[color](padr(val, 7, ' ')) + ':';
-  }
-}
-
-class CopyTrigger extends ActionTrigger {
-  constructor(source, destination) {
-    super();
-    this.source = source;
-    this.destination = destination;
-    this.debug();
-  }
-
-  trigger() {
-    console.log(`${this.format('Copy', 'green')} ${this.source} -> ${this.destination}`);
-
-    const destinationDir = path.dirname(this.destination);
-    if (!fs.pathExistsSync(destinationDir)) {
-      debug('Missing Destination Dir, trigger MkdirTrigger');
-      new MkdirTrigger(destinationDir).trigger();
-    }
-
-    fs.copySync(this.source, this.destination);
-  }
-}
-
-class MkdirTrigger extends ActionTrigger {
-  constructor(destination) {
-    super();
-    this.destination = destination;
-    this.debug();
-  }
-
-  trigger() {
-    console.log(`${this.format('Mkdir', 'yellow')} ${this.destination}`);
-    fs.mkdirpSync(this.destination);
-  }
-}
-
-class UnlinkTrigger extends ActionTrigger {
-  constructor(destination) {
-    super();
-    this.destination = destination;
-    this.debug();
-  }
-
-  trigger() {
-    console.log(`${this.format('Delete', 'red')} ${this.destination}`);
-    fs.removeSync(this.destination);
-  }
-}
-
 class Watcher {
 
   constructor(dest = '', src = '', pattern = Watcher.GLOB) {
     this.dest = Watcher.normalizePath(dest);
     this.src = Watcher.normalizePath(src);
     this.pattern = pattern;
+    this.watchers = {};
   }
 
   static normalizePath(opt) {
@@ -108,10 +48,60 @@ class Watcher {
     return _opt.length === 1 ? _opt[0] : _opt;
   }
 
+  static log(verb, color, text) {
+    console.log(`${chalk[color](padr(verb.toUpperCase(), 7, ' '))}: ${text}`);
+  }
+
   handledFile(event, filePath) {
     return !!event && (event.match(/Dir$/) || minimatch(path.basename(filePath), this.pattern, {
       nocase: true
     }));
+  }
+
+  startMainWatcher() {
+    this.watchers.main = chokidar.watch(this.src, {
+      interval: 200,
+      awaitWriteFinish: true
+    });
+
+    this.watchers.main.on('all', function (event, filePath) { //function needed to access arguments.
+      debug('%O', arguments);
+      if (!this.handledFile(event, filePath)) {
+        debug(`Unhandled event "${event}" or file "${filePath}"`);
+        return;
+      }
+      this.triggerAction(event, filePath);
+    }.bind(this));
+  }
+
+  restartMainWatcher() {
+    this.watchers.main.close();
+    delete this.watchers.main;
+
+    this.startMainWatcher();
+  }
+
+  startServerRestartWatcher(lookupFile = path.join('nxserver', 'nuxeo.war', 'WEB-INF', 'dev')) {
+    const dp = pathResolver.findBaseDistributionPath(this.dest);
+    if (!dp) {
+      return;
+    }
+
+    const fp = path.join(dp, lookupFile);
+    if (!fs.pathExistsSync(fp)) {
+      Watcher.log('Warn', 'yellow', `You should enable the '${chalk.blue('sdk')}' template in order to detect server's restart to start a new synchronization automatically.`);
+      return;
+    }
+
+    Watcher.log('Info', 'blue', 'Nuxeo Server restart watcher enabled.');
+    this.watchers.server = chokidar.watch(fp, {
+      ignored: '**/dev/*',
+      ignoreInitial: true
+    });
+    this.watchers.server.on('all', () => {
+      Watcher.log('Restart', 'red', `Server has been restarted. Reinitialise Synchronization from: ${chalk.blue(this.src)}`);
+      this.restartMainWatcher();
+    });
   }
 
   resolveAction(event, filePath) {
@@ -149,22 +139,83 @@ class Watcher {
   run() {
     setTimeout(() => {
       // Delayed to 5ms, to free the thread to print the logo before any other log
-      console.log(`Waiting changes on "${chalk.blue(this.src)}", to "${chalk.blue(this.dest)}"`);
-    }, 5);
+      console.log(`Waiting changes from "${chalk.blue(this.src)}", to "${chalk.blue(this.dest)}"`);
 
-    chokidar.watch(this.src, {
-      interval: 200,
-      awaitWriteFinish: true
-    }).on('all', function (event, filePath) { //function needed to access arguments.
-      debug('%O', arguments);
-      if (!this.handledFile(event, filePath)) {
-        debug(`Unhandled event "${event}" or file "${filePath}"`);
-        return;
-      }
-      this.triggerAction(event, filePath);
-    }.bind(this));
+      this.startMainWatcher();
+      this.startServerRestartWatcher();
+    }, 5);
   }
 }
+
+class ActionTrigger {
+  trigger() {
+    debug('Not overrided method!');
+  }
+
+  debug() {
+    debug('New action registered: %O', this);
+  }
+}
+
+class CopyTrigger extends ActionTrigger {
+  constructor(source, destination) {
+    super();
+    this.source = source;
+    this.destination = destination;
+    this.debug();
+  }
+
+  trigger() {
+    Watcher.log('Copy', 'green', `${this.source} -> ${this.destination}`);
+
+    const destinationDir = path.dirname(this.destination);
+    if (!fs.pathExistsSync(destinationDir)) {
+      debug('Missing Destination Dir, trigger MkdirTrigger');
+      new MkdirTrigger(destinationDir).trigger();
+    }
+
+    fs.copySync(this.source, this.destination);
+  }
+}
+
+class MkdirTrigger extends ActionTrigger {
+  constructor(destination) {
+    super();
+    this.destination = destination;
+    this.debug();
+  }
+
+  trigger() {
+    Watcher.log('Mkdir', 'magenta', this.destination);
+    fs.mkdirpSync(this.destination);
+  }
+}
+
+class RestartWatcherTrigger extends ActionTrigger {
+  constructor(watcher) {
+    super();
+    this.watcher = watcher;
+    this.debug();
+  }
+
+  trigger() {
+
+  }
+}
+
+class UnlinkTrigger extends ActionTrigger {
+  constructor(destination) {
+    super();
+    this.destination = destination;
+    this.debug();
+  }
+
+  trigger() {
+    Watcher.log('Delete', 'yellow', this.destination);
+    fs.removeSync(this.destination);
+  }
+}
+
 
 module.exports = {
   command: 'sync',
