@@ -222,6 +222,11 @@ describe('Synchronization Command', function () {
         expect(trigger instanceof test.trigger).to.be.true;
       });
     });
+
+    it('with "dummy" event', function() {
+      const trigger = watcher.resolveAction('dummy', '');
+      expect(trigger).to.be.undefined;
+    });
   });
 
   describe('compute destination path', function () {
