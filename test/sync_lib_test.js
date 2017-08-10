@@ -29,6 +29,7 @@ describe('Synchronization Lib Modules', function () {
     describe('src getter', function () {
       it('returns a default value', function () {
         expect(PathResolver.src().describe).to.be.eq('Source Folder');
+        expect(PathResolver.src().default).to.contains('/tmp/watcher/src');
         expect(PathResolver.computeSource()).to.be.eq('/tmp/watcher/src');
       });
 
@@ -69,6 +70,7 @@ describe('Synchronization Lib Modules', function () {
     describe('dest getter', function () {
       it('returns a default value', function () {
         expect(PathResolver.dest().describe).to.be.eq('Destination Folder');
+        expect(PathResolver.dest().default).to.contains('/tmp/watcher/dest');
         expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
       });
 
