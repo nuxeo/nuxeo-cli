@@ -50,25 +50,31 @@ nuxeo <command> [options] [args]
 #### Usage
 
 ```bash
-nuxeo sync --src "<src_folder>" [--dest "<dest_folder"]
+nuxeo sync [--src "<src_folder>"] [--dest "<dest_folder"]
 ```
 
 One-way Synchronization files (`src` folder to `dest` folder), then watch any changes occured in a child from the `source` folder to repercute it to the `dest` folder.
 
-If you start this command inside a `nuxeo-cli` bootstrap project that has been registered for hotreload (`nuxeo hotreload configure`), the destination path is computed to the registered distribution.
+If you start this command inside a *nuxeo-cli* bootstrap project that has been registered for hotreload (`nuxeo hotreload configure`), the **destination** path is computed to the registered distribution.
 
 ```text
   --dest         Destination Folder                           [string] [default:
-            "/Users/foo/nuxeo-server-tomcat-9.3-SNAPSHOT/nxserver/nuxeo.war/ui"]
+               "/Users/foo/nuxeo-server-tomcat-9.3-SNAPSHOT/nxserver/nuxeo.war"]
 ```
 
-You can also watch several source folders:
+If you start command inside a *Studio Project* clone, the **source** path is computed to `nuxeo.war` folder.
+
+```text
+  --src          Source Folder         [default: "./studio/resources/nuxeo.war"]
+```
+
+You can watch several source folders:
 
 ```bash
 nuxeo sync --src "<src1_folder>" --src "<src2_folder>" --src "<src3_folder>" --dest "<dest_folder"
 ```
 
-You can also fine tune which files are tracked, but overriding the `pattern` option:
+You can fine tune which files are tracked, by overriding the `pattern` option:
 
 ```bash
 nuxeo sync --pattern "*.js"

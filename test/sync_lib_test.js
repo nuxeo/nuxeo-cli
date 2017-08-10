@@ -101,9 +101,9 @@ describe('Synchronization Lib Modules', function () {
 
           expect(PathResolver.computeDestination()).to.be.eq('/tmp/watcher/dest');
           this.initYoRc({
-            'distribution:path': '/foo/bar/nxserver'
+            'distribution:path': '/foo/bar/distribution'
           });
-          expect(PathResolver.computeDestination()).to.match(/^\/foo\/bar\/nxserver\/.+/);
+          expect(PathResolver.computeDestination()).to.eq('/foo/bar/distribution/nxserver/nuxeo.war');
         });
 
         it('and return default value if distribution not configured', function () {
