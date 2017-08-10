@@ -12,9 +12,24 @@ class PathResolver {
     return {
       describe: 'Source Folder',
       default: (() => {
-        return '/tmp/watcher/src';
+        return this.computeSource();
       })()
     };
+  }
+
+  computeSource() {
+    let targetPath = '/tmp/watcher/src';
+    const appXml = parentPath('application.xml');
+    debug('application.xml file path: %O from cwd: %O', appXml, process.cwd());
+    if (appXml && fs.pathExistsSync(path.join(appXml, 'studio'))) {
+      const warFolder = path.join(appXml, 'studio', 'resources', 'nuxeo.war');
+      const warExists = fs.pathExistsSync(warFolder);
+      debug('computed nuxeo.war path: %O, exists: %O', warFolder, warExists);
+      if (warExists) {
+        return warFolder;
+      }
+    }
+    return targetPath;
   }
 
   get dest() {
@@ -71,6 +86,11 @@ module.exports.dest = () => {
 module.exports.computeDestination = () => {
   const pr = new PathResolver();
   return pr.computeDestination();
+};
+
+module.exports.computeSource = () => {
+  const pr = new PathResolver();
+  return pr.computeSource();
 };
 
 module.exports.findBaseDistributionPath = (target, child) => {

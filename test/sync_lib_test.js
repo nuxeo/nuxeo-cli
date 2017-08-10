@@ -31,6 +31,39 @@ describe('Synchronization Lib Modules', function () {
         expect(PathResolver.src().describe).to.be.eq('Source Folder');
         expect(PathResolver.src().default).to.be.eq('/tmp/watcher/src');
       });
+
+      describe('can find a Studio gitlab clone', function () {
+        beforeEach(function () {
+          this.baseProject = path.join(process.cwd(), 'project');
+          fs.mkdirpSync(this.baseProject);
+          fs.writeFileSync(path.join(this.baseProject, 'application.xml'), 'dummy-content');
+
+          this.warFolder = path.join(this.baseProject, 'studio', 'resources', 'nuxeo.war');
+        });
+
+        it('ensures that a application.xml and studio folder are present', function () {
+          const cwd = path.join(this.warFolder, 'ui', 'document');
+          fs.mkdirpSync(cwd);
+          process.chdir(cwd);
+
+          expect(PathResolver.computeSource()).to.eq(this.warFolder);
+        });
+
+        it('ensures that a studio folder exists at the same level, containing a nuxeo.war', function () {
+          // with a missing studio folder
+          expect(PathResolver.computeSource()).to.eq('/tmp/watcher/src');
+
+          // After creating a studio folder AND a nuxeo.war
+          fs.mkdirpSync(this.warFolder);
+          process.chdir(this.warFolder);
+          expect(PathResolver.computeSource()).to.eq(this.warFolder);
+
+          // After unlinking nuxeo.war folder
+          process.chdir(path.dirname(this.warFolder));
+          fs.rmdirSync(this.warFolder);
+          expect(PathResolver.computeSource()).to.eq('/tmp/watcher/src');
+        });
+      });
     });
 
     describe('dest getter', function () {
