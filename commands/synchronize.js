@@ -61,7 +61,6 @@ class Watcher {
 
   startMainWatcher() {
     this.watchers.main = chokidar.watch(this.src, {
-      interval: 200,
       awaitWriteFinish: true
     });
 
@@ -143,7 +142,7 @@ class Watcher {
       console.log(`Waiting changes from "${chalk.blue(truncate(this.src))}", to "${chalk.blue(truncate(this.dest))}"`);
 
       this.startMainWatcher();
-      this.startServerRestartWatcher();
+      // this.startServerRestartWatcher();
     }, 5);
   }
 }
