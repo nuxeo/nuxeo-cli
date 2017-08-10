@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const padr = require('pad-right');
 const minimatch = require('minimatch');
 const pathResolver = require('./synchronize_lib/path_resolver');
+const truncate = pathResolver.truncate;
 const containsChild = require('./synchronize_lib/path_child_finder').containsChild;
 const isArray = require('isarray');
 const _ = require('lodash');
@@ -139,7 +140,7 @@ class Watcher {
   run() {
     setTimeout(() => {
       // Delayed to 5ms, to free the thread to print the logo before any other log
-      console.log(`Waiting changes from "${chalk.blue(this.src)}", to "${chalk.blue(this.dest)}"`);
+      console.log(`Waiting changes from "${chalk.blue(truncate(this.src))}", to "${chalk.blue(truncate(this.dest))}"`);
 
       this.startMainWatcher();
       this.startServerRestartWatcher();
@@ -155,6 +156,14 @@ class ActionTrigger {
   debug() {
     debug('New action registered: %O', this);
   }
+
+  get displaySrc() {
+    return truncate(this.source);
+  }
+
+  get displayDest() {
+    return truncate(this.destination);
+  }
 }
 
 class CopyTrigger extends ActionTrigger {
@@ -166,7 +175,7 @@ class CopyTrigger extends ActionTrigger {
   }
 
   trigger() {
-    Watcher.log('Copy', 'green', `${this.source} -> ${this.destination}`);
+    Watcher.log('Copy', 'green', `${this.displaySrc} ${chalk.grey('->')} ${this.displayDest}`);
 
     const destinationDir = path.dirname(this.destination);
     if (!fs.pathExistsSync(destinationDir)) {
@@ -186,7 +195,7 @@ class MkdirTrigger extends ActionTrigger {
   }
 
   trigger() {
-    Watcher.log('Mkdir', 'magenta', this.destination);
+    Watcher.log('Mkdir', 'magenta', this.displayDest);
     fs.mkdirpSync(this.destination);
   }
 }
@@ -211,7 +220,7 @@ class UnlinkTrigger extends ActionTrigger {
   }
 
   trigger() {
-    Watcher.log('Delete', 'yellow', this.destination);
+    Watcher.log('Delete', 'yellow', this.displayDest);
     fs.removeSync(this.destination);
   }
 }

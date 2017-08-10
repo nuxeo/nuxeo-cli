@@ -8,11 +8,17 @@ class PathResolver {
 
   }
 
+  static truncate(target) {
+    const trunc = '.' + path.sep + path.relative(process.cwd(), target);
+    const parentCount = (trunc.match(/\.\.\//g) || []).length;
+    return trunc.length > target.length || parentCount > 3 ? target : trunc;
+  }
+
   get src() {
     return {
       describe: 'Source Folder',
       default: (() => {
-        return this.computeSource();
+        return PathResolver.truncate(this.computeSource());
       })()
     };
   }
@@ -37,7 +43,7 @@ class PathResolver {
       describe: 'Destination Folder',
       type: 'string',
       default: (() => {
-        return this.computeDestination();
+        return PathResolver.truncate(this.computeDestination());
       })()
     };
   }
