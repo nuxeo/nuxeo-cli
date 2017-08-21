@@ -19,13 +19,13 @@ Nuxeo CLI includes several commands for working with your Nuxeo Project
 
 Install via NPM:
 
-```
+```bash
 npm install -g nuxeo-cli
 ```
 
 Then `nuxeo` executable should be available; ensure you can run:
 
-```
+```bash
 nuxeo
 ```
 
@@ -109,6 +109,37 @@ nuxeo bootstrap [<generator>..] [options]
 
 See: [Generator Nuxeo Bootstrap](https://github.com/nuxeo/generator-nuxeo/#available-generators)
 
+#### Bootstrap Script
+
+Script project bootstrap by passing questions' answers as command options.
+
+```bash
+nuxeo-bootstrap [<generator>..] [options]
+```
+
+##### Options
+
+```text
+Options:
+  --dry-run, -n  Don't actually create the file(s), just list parameters,
+                 default values and errors.                     [default: false]
+  --help         Show help                                             [boolean]
+```
+
+##### Examples
+
+Dry-run an operation creation to check parameters names and default values:
+
+```bash
+nuxeo-bootstrap operation -n
+```
+
+Create a single-module plus an operation:
+
+```bash
+nuxeo-bootstrap single-module operation --package com.sample --operation_name SampleOperation --operation_label="My Sample Operation"
+```
+
 ### hotreload
 
 ```bash
@@ -125,7 +156,7 @@ nuxeo studio [link|unlink] [options]
 
 Link or Unlink your project to your Studio project to package it easily and be able to test ev erything together.
 
-## Testing/Developer Environment
+## Tester/Developer Environment
 
 Lots of Nuxeo CLI logic is held in [generator-nuxeo](https://github.com/nuxeo/generator-nuxeo/) project. You must link both projects to be able to have live modifications.
 

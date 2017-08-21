@@ -47,7 +47,8 @@
     "yeoman-environment": "^2.0.0"
   },
   "bin": {
-    "nuxeo": "./bin/nuxeo-cli.js"
+    "nuxeo": "./bin/nuxeo-cli.js",
+    "nuxeo-bootstrap": "./bin/nuxeo-bootstrap.js"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
