@@ -199,18 +199,6 @@ class MkdirTrigger extends ActionTrigger {
   }
 }
 
-class RestartWatcherTrigger extends ActionTrigger {
-  constructor(watcher) {
-    super();
-    this.watcher = watcher;
-    this.debug();
-  }
-
-  trigger() {
-
-  }
-}
-
 class UnlinkTrigger extends ActionTrigger {
   constructor(destination) {
     super();
@@ -229,6 +217,7 @@ module.exports = {
   command: 'sync',
   desc: 'Web Resources Folder Synchronization',
   handler: function (argv) {
+    require('../lib/analytics').event('nuxeo:synchronize', argv._.slice(1).join(' '));
     debug('Argv: %O', argv);
 
     const w = new Watcher(argv.dest, argv.src, argv.pattern);

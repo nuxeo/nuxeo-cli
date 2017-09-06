@@ -39,10 +39,13 @@
     "isarray": "^2.0.2",
     "lodash": "^4.17.4",
     "log-symbols": "^2.0.0",
+    "node-machine-id": "^1.1.9",
     "pad-right": "^0.2.2",
     "parentpath": "^0.2.0",
     "semver": "^5.4.1",
+    "universal-analytics": "^0.4.15",
     "update-notifier": "^2.2.0",
+    "uuid": "^3.1.0",
     "yargs": "^8.0.2",
     "yeoman-environment": "^2.0.0"
   },
