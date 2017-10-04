@@ -1,6 +1,6 @@
 {
   "name": "nuxeo-cli",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
   "repository": {
@@ -15,7 +15,7 @@
     "report": "nyc report",
     "coverage": "npm run report -- --reporter=cobertura",
     "preversion": "rm -rf node_modules package-lock.json && npm install --save generator-nuxeo@* && npm install && git add -f package-lock.json",
-    "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && npm install --save nuxeo/generator-nuxeo#master && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
+    "postversion": "npm publish && git rm -f package-lock.json && npm version --ignore-scripts --no-git-tag-version patch && npm install --save nuxeo/generator-nuxeo#master && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
     "nuxeo",
@@ -32,7 +32,7 @@
     "chokidar": "^1.7.0",
     "debug": "^2.6.8",
     "fs-extra": "^4.0.0",
-    "generator-nuxeo": "^2.8.0",
+    "generator-nuxeo": "github:nuxeo/generator-nuxeo#master",
     "is-windows": "^1.0.1",
     "isarray": "^2.0.2",
     "lodash": "^4.17.4",

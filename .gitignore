@@ -2,6 +2,7 @@ node_modules
 coverage
 tmp*
 npm-shrinkwrap.json
+package-lock.json
 npm-debug.log
 test-results.xml
 .nyc_output/*
