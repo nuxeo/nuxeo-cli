@@ -14,9 +14,7 @@
     "prereport": "nyc npm test -- --reporter mocha-junit-reporter",
     "report": "nyc report",
     "coverage": "npm run report -- --reporter=cobertura",
-    "preshrinkwrap": "rm -rf node_modules && npm install --save generator-nuxeo@* && npm install",
-    "postshrinkwrap": "npm test",
-    "preversion": "npm shrinkwrap && git add -f npm-shrinkwrap.json",
+    "preversion": "rm -rf node_modules package-lock.json && npm install --save generator-nuxeo@* && npm install && git add -f package-lock.json",
     "postversion": "npm publish && git rm -f npm-shrinkwrap.json && npm version --ignore-scripts --no-git-tag-version patch && npm install --save nuxeo/generator-nuxeo#master && git commit -am \"Post release ${npm_package_version}\" && git push && git push --tags"
   },
   "keywords": [
@@ -34,7 +32,7 @@
     "chokidar": "^1.7.0",
     "debug": "^2.6.8",
     "fs-extra": "^4.0.0",
-    "generator-nuxeo": "github:nuxeo/generator-nuxeo#master",
+    "generator-nuxeo": "^2.8.0",
     "is-windows": "^1.0.1",
     "isarray": "^2.0.2",
     "lodash": "^4.17.4",
