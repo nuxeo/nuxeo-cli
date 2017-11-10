@@ -37,6 +37,7 @@
     "isarray": "^2.0.2",
     "lodash": "^4.17.4",
     "log-symbols": "^2.0.0",
+    "mime-types": "^2.1.17",
     "node-machine-id": "^1.1.9",
     "pad-right": "^0.2.2",
     "parentpath": "^0.2.0",
