@@ -33,6 +33,7 @@
     "debug": "^2.6.8",
     "fs-extra": "^4.0.0",
     "generator-nuxeo": "github:nuxeo/generator-nuxeo#master",
+    "glob": "^7.1.2",
     "is-windows": "^1.0.1",
     "isarray": "^2.0.2",
     "lodash": "^4.17.4",
