@@ -164,6 +164,38 @@ Lots of Nuxeo CLI logic is held in [generator-nuxeo](https://github.com/nuxeo/ge
 npm install -g nuxeo/nuxeo-cli#master
 ```
 
+## Release
+
+Release tag and dependencies lock are plugged to the `version` NPM's [command](https://docs.npmjs.com/cli/version).
+
+### When you bump the version
+
+#### `preversion` task
+
+- `node_modules` folder and `package-lock.json` file are deleted.
+- `generator-nuxeo` dependency installed using the latest release.
+- Install all the others dependencies.
+- add `package-lock.json` file to the next commit.
+
+#### `postversion` task
+
+- run `npm publish`
+- remove `package-lock.json` for the next commit.
+- bump module version without a new tag.
+- install `generator-nuxeo#master`.
+- add a post-release commit.
+- push everything.
+
+### Examples
+
+```
+# bump major version
+npm version major
+
+# bump patch
+npm version patch
+```
+
 # Licensing
 
 [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
