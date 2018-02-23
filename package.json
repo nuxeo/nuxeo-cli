@@ -1,6 +1,6 @@
 {
   "name": "nuxeo-cli",
-  "version": "1.8.4",
+  "version": "1.8.5-0",
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
   "repository": {
@@ -32,7 +32,7 @@
     "chokidar": "^1.7.0",
     "debug": "^2.6.8",
     "fs-extra": "^4.0.0",
-    "generator-nuxeo": "^2.8.1",
+    "generator-nuxeo": "github:nuxeo/generator-nuxeo#master",
     "global-tunnel-ng": "^2.1.0",
     "is-windows": "^1.0.1",
     "isarray": "^2.0.2",
