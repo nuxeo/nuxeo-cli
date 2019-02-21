@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "rm -rf $PWD/node_modules/generator-nuxeo && ln -s $PWD/../generator-nuxeo $PWD/node_modules/generator-nuxeo",
-    "test": "mocha --timeout 5000 -u tdd",
+    "test": "mocha --timeout 5000 -u bdd",
     "clean": "rimraf coverage/ test-results.xml .nyc*",
     "prereport": "nyc npm test -- --reporter mocha-junit-reporter",
     "report": "nyc report",
@@ -29,9 +29,9 @@
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
     "chalk": "^2.0.1",
-    "chokidar": "^1.7.0",
-    "debug": "^2.6.8",
-    "fs-extra": "^4.0.0",
+    "chokidar": "^2.1.2",
+    "debug": "^4.1.1",
+    "fs-extra": "^7.0.1",
     "generator-nuxeo": "^2.9.0",
     "global-tunnel-ng": "^2.1.0",
     "is-windows": "^1.0.1",
@@ -45,7 +45,7 @@
     "universal-analytics": "^0.4.15",
     "update-notifier": "^2.2.0",
     "uuid": "^3.1.0",
-    "yargs": "^8.0.2",
+    "yargs": "^13.2.1",
     "yeoman-environment": "^2.0.0"
   },
   "bin": {
@@ -53,14 +53,14 @@
     "nuxeo-bootstrap": "./bin/nuxeo-bootstrap.js"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^10.0.1",
     "chai": "^4.1.0",
-    "eslint": "^4.3.0",
+    "eslint": "^5.14.1",
     "minimatch": "^3.0.4",
-    "mocha": "^3.4.2",
+    "mocha": "^6.0.0",
     "mocha-junit-reporter": "^1.13.0",
-    "nyc": "^11.0.3",
+    "nyc": "^13.3.0",
     "rimraf": "^2.6.1",
-    "tmp": "0.0.31"
+    "tmp": "0.0.33"
   }
 }
