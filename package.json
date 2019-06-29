@@ -45,7 +45,7 @@
     "universal-analytics": "^0.4.15",
     "update-notifier": "^2.2.0",
     "uuid": "^3.1.0",
-    "yargs": "^13.2.1",
+    "yargs": "^13.3.0",
     "yeoman-environment": "^2.0.0"
   },
   "bin": {
