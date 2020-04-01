@@ -168,14 +168,6 @@ nuxeo studio export
 
 Export your project's contributions to the Studio registries in order to reuse them in Studio.
 
-## Proxy
-
-Proxy configuration rely on the common Unix environment variable `HTTP_PROXY` or `http_proxy`. Value format: `[username:password@]www.host.com[:1334]`
-
-```bash
-HTTP_PROXY=john:doe@fake.proxy:1337 nuxeo b multi-module
-```
-
 ## Tester/Developer Environment
 
 Lots of Nuxeo CLI logic is held in [generator-nuxeo](https://github.com/nuxeo/generator-nuxeo/) project. You must link both projects to be able to have live modifications.
