@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "env": {
     "node": true,
-    "mocha": true
+    "mocha": true,
+    "Promise": true
   },
   "rules": {
     "array-bracket-spacing": [
@@ -20,7 +21,8 @@
       2
     ],
     "no-multiple-empty-lines": [
-      2, {
+      2,
+      {
         "max": 2
       }
     ],
@@ -41,7 +43,8 @@
       "single"
     ],
     "space-before-function-paren": [
-      0, {
+      0,
+      {
         "anonymous": "always",
         "named": "never"
       }
@@ -61,7 +64,8 @@
     ],
     "eol-last": 2,
     "key-spacing": [
-      2, {
+      2,
+      {
         "beforeColon": false,
         "afterColon": true
       }
@@ -70,7 +74,8 @@
     "no-with": 2,
     "space-infix-ops": 2,
     "dot-notation": [
-      2, {
+      2,
+      {
         "allowKeywords": true
       }
     ],
@@ -113,7 +118,8 @@
     "no-underscore-dangle": 0,
     "semi": 2,
     "semi-spacing": [
-      2, {
+      2,
+      {
         "before": false,
         "after": true
       }
