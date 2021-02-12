@@ -148,6 +148,14 @@ nuxeo hotreload [hotreload|configure] [options]
 
 See: [Generator Nuxeo Hotreload](https://github.com/nuxeo/generator-nuxeo/#hot-reload)
 
+### Synchronize
+
+```bash
+nuxeo synchronize [synchronize|configure]
+```
+
+See: [Generator Nuxeo Hotreload](https://github.com/nuxeo/generator-nuxeo/#hot-reload)
+
 ### studio
 
 ```bash
