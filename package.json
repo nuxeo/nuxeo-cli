@@ -24,7 +24,7 @@
   "author": "Arnaud Kervern",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=8"
+    "node": ">=9 <13"
   },
   "dependencies": {
     "ansi-256-colors": "^1.1.0",
