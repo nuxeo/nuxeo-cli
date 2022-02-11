@@ -1,6 +1,6 @@
 {
   "name": "nuxeo-cli",
-  "version": "2.0.1-0",
+  "version": "2.0.1",
   "description": "Nuxeo CLI is a command-line interface for helping developers around Nuxeo ecosystem. It provides project bootstrapping, bundles hot reload,...",
   "main": "./bin/nuxeo-cli.js",
   "repository": {
@@ -30,7 +30,7 @@
     "ansi-256-colors": "^1.1.0",
     "chalk": "^2.0.1",
     "debug": "^4.1.1",
-    "generator-nuxeo": "^3.0.1",
+    "generator-nuxeo": "^3.0.0",
     "global-tunnel-ng": "^2.1.0",
     "is-windows": "^1.0.1",
     "lodash": "^4.17.4",
