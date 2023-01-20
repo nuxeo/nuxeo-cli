@@ -31,6 +31,7 @@
     "chalk": "^2.0.1",
     "debug": "^4.1.1",
     "generator-nuxeo": "^3.0.1",
+    "global-agent": "^2.0.0",
     "global-tunnel-ng": "^2.1.0",
     "is-windows": "^1.0.1",
     "lodash": "^4.17.4",
