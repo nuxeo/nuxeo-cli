@@ -176,6 +176,16 @@ nuxeo studio export
 
 Export your project's contributions to the Studio registries in order to reuse them in Studio.
 
+## Proxy
+
+Proxy configuration rely on the common [global-agent](https://www.npmjs.com/package/global-agent) module (or [global-tunnel-ng](https://www.npmjs.com/package/global-tunnel-ng) before Node 10).
+Meaning you can use the environment variables `HTTP_PROXY` and `HTTPS_PROXY` with value format: `http[s]://[username:password@]www.host.com[:1334]`
+
+```bash
+HTTP_PROXY=http://john:doe@fake.proxy:1337 nuxeo b multi-module
+```
+Note: You can also exclude some urls to use the proxy by defining the `NO_PROXY` environment variable with value format: `*.toexclude.com`
+
 ## Tester/Developer Environment
 
 Lots of Nuxeo CLI logic is held in [generator-nuxeo](https://github.com/nuxeo/generator-nuxeo/) project. You must link both projects to be able to have live modifications.
