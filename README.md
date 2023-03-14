@@ -196,35 +196,13 @@ npm install -g nuxeo/nuxeo-cli#master
 
 ## Release
 
-Release tag and dependencies lock are plugged to the `version` NPM's [command](https://docs.npmjs.com/cli/version).
+To launch the release, an annotated tag has to be pushed with the following commands:
 
-### When you bump the version
-
-#### `preversion` task
-
-- `node_modules` folder and `package-lock.json` file are deleted.
-- `generator-nuxeo` dependency installed using the latest release.
-- Install all the others dependencies.
-- add `package-lock.json` file to the next commit.
-
-#### `postversion` task
-
-- run `npm publish`
-- remove `package-lock.json` for the next commit.
-- bump module version without a new tag.
-- install `generator-nuxeo#master`.
-- add a post-release commit.
-- push everything.
-
-### Examples
-
+```bash
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+git push origin vX.Y.Z
 ```
-# bump major version
-npm version major
-
-# bump patch
-npm version patch
-```
+NPM package with the X.Y.Z version will be published to https://packages.nuxeo.com/repository/npm-public/ and https://registry.npmjs.org/ (public access)
 
 # Licensing
 
