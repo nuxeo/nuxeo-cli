@@ -12,8 +12,10 @@ if (!require('semver').satisfies(process.version, expectedVersion)) {
 
 // Notify if update is required
 const updateNotifier = require('update-notifier');
-updateNotifier({
-  pkg
-}).notify();
+if (pkg.version) { // only if version is defined in package.json (i.e it's a released version)
+  updateNotifier({
+    pkg
+  }).notify();
+}
 
 require('../lib/cli.js')();
