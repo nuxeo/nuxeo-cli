@@ -27,7 +27,7 @@
     "ansi-256-colors": "^1.1.0",
     "chalk": "^2.0.1",
     "debug": "^4.1.1",
-    "generator-nuxeo": "4.0.5",
+    "generator-nuxeo": "^4.0.6",
     "global-agent": "^2.0.0",
     "global-tunnel-ng": "^2.1.0",
     "is-windows": "^1.0.1",
@@ -45,7 +45,7 @@
   "overrides": {
     "shelljs": "^0.8.5"
   },
-  "pnpm":{
+  "pnpm": {
     "overrides": {
       "shelljs": "^0.8.5"
     }
