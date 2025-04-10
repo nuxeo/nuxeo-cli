@@ -121,3 +121,5 @@ _npx
 .yarn/install-state.gz
 .pnp.*
 
+# Intellij
+.idea
